@@ -1,15 +1,17 @@
-import express from "express";
-import dotenv from "dotenv";
-import morgan from "morgan";
+const express = require("express")
+require("dotenv").config();
+const morgan = require("morgan")
+const db = require("./db")
 
-dotenv.config();
 const app = express();
 
 app.use(morgan("dev"));
 app.use(express.json());
 
 // Get all Restaurants
-app.get("/api/v1/restaurants", (req, res) => {
+app.get("/api/v1/restaurants", async (req, res) => {
+  const results = await db.query("SELECT * FROM restaurants");
+  console.log(results);
   res.status(200).json({
     status: "Success",
     data: {
